@@ -141,7 +141,7 @@ const InstructorDashboard = () => {
   
 
   return (
-    <div className="relative">
+    <div className="relative mt-16">
       {isPopOpen && (
         <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"></div>
       )}

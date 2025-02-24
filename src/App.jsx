@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import Navbar from "./component/Navbar";
 import SignIn from "./component/SignIn";
@@ -11,14 +11,29 @@ import InstructorDashboard from "./pages/InstructorDashboard";
 import { useUser } from "./context/UserContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Footer from "./component/Footer";
-import ProfileDasboard from "./pages/Profile/ProfileDasboard";
+import ProfileDashboard from "./pages/Profile/ProfileDasboard";
 import CourseDetails from "./pages/CourseDetails";
 
-function App() {
-  const { user } = useUser();
+// import { useEffect } from "react";
+
+const AppContent = () => {
+  // const {  loading } = useUser();
+  const location = useLocation();
+
+  // useEffect(() => {
+  //   console.log("Current path:", location.pathname);
+  // }, [location]);
+
+  // if (loading)
+  //   return (
+  //     <div className="flex justify-center items-center h-screen">
+  //       Loading...
+  //     </div>
+  //   );
 
   return (
-    <BrowserRouter>
+    <>
+      {/* 🧭 Show Navbar only if NOT on login/register pages */}
       {!["/login", "/register"].includes(location.pathname) && <Navbar />}
 
       <Routes>
@@ -31,7 +46,7 @@ function App() {
           path="/profile"
           element={
             <ProtectedRoute
-              element={ProfileDasboard}
+              element={ProfileDashboard}
               allowedRoles={["student", "instructor"]}
             />
           }
@@ -63,8 +78,17 @@ function App() {
           }
         />
       </Routes>
+
       <Footer />
       <ToastContainer position="top-center" theme="dark" />
+    </>
+  );
+};
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
     </BrowserRouter>
   );
 }

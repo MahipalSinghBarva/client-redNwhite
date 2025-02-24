@@ -16,9 +16,9 @@ const SignIn = () => {
       const { success, message, token, user } = await userService.login(form);
 
       if (success) {
-        if (token) localStorage.setItem("token", token);
+        // if (token) localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
-        login(user);
+        login(user, token);
         toast.success("Login successful");
         navigate("/");
       } else {
@@ -98,9 +98,9 @@ const SignIn = () => {
               <div className="text-sm font-medium text-gray-900 dark:text-white">
                 Not registered yet?{" "}
                 <Link to="/register">
-                  <a className="text-blue-600 hover:underline dark:text-blue-500">
+                  <p className="text-blue-600 hover:underline dark:text-blue-500">
                     Create account
-                  </a>
+                  </p>
                 </Link>
               </div>
             </form>

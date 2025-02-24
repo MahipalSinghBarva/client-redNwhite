@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useUser } from "../../context/UserContext";
 
 const ProfileDashboard = () => {
-  const { user, setUser } = useUser(); 
+  const { user, login, setUser } = useUser();
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
     userName: user?.userName || "",
@@ -15,27 +15,32 @@ const ProfileDashboard = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await userService.updateProfile(formData);
 
       if (response?.success) {
-        setUser(response.updatedUser);
-        localStorage.setItem("user", JSON.stringify(response.updatedUser));
-        toast.success("Profile updated successfully!");
-        setEditMode(false);
+        const { user } = response; // ✅ Get user from response
+
+        if (user) {
+          setUser(user); // ✅ Update context to prevent logout
+          localStorage.setItem("user", JSON.stringify(user)); // ✅ Update localStorage
+          toast.success("Profile updated successfully!");
+          setEditMode(false);
+        } else {
+          toast.error("No user data returned. Please try again.");
+        }
       } else {
         toast.error(response?.message || "Failed to update profile.");
       }
     } catch (error) {
-      toast.error(error.message || "Failed to update profile.");
+      toast.error(error.response?.data?.message || "Failed to update profile.");
     }
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-10 h-[67vh]">
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-16 h-[67vh]">
       <h2 className="text-3xl font-semibold mb-6 text-center">My Profile</h2>
       {user ? (
         !editMode ? (
