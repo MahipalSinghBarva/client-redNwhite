@@ -8,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import CourseCard from "./pages/CourseCard";
 import Dashboard from "./pages/Dashboard";
 import InstructorDashboard from "./pages/InstructorDashboard";
-import CreateCourses from "./pages/CreateCourses";
 import { useUser } from "./context/UserContext";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Footer from "./component/Footer";
@@ -59,15 +58,6 @@ function App() {
           element={
             <ProtectedRoute
               element={InstructorDashboard}
-              allowedRoles={["instructor"]}
-            />
-          }
-        />
-        <Route
-          path="/create/course"
-          element={
-            <ProtectedRoute
-              element={CreateCourses}
               allowedRoles={["instructor"]}
             />
           }
