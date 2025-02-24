@@ -21,11 +21,11 @@ const ProfileDashboard = () => {
       const response = await userService.updateProfile(formData);
 
       if (response?.success) {
-        const { user } = response; // ✅ Get user from response
+        const { user } = response; 
 
         if (user) {
-          setUser(user); // ✅ Update context to prevent logout
-          localStorage.setItem("user", JSON.stringify(user)); // ✅ Update localStorage
+          setUser(user); 
+          localStorage.setItem("user", JSON.stringify(user)); 
           toast.success("Profile updated successfully!");
           setEditMode(false);
         } else {
