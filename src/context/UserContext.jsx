@@ -16,6 +16,7 @@ export const UserProvider = ({ children }) => {
   const getProfile = async () => {
     try {
       const { data } = await axios.get(`${baseURL}/api/v1/me`, {
+        headers: { "Content-Type": "application/json" },
         withCredentials: true,
       });
       setUser(data.user);
@@ -40,7 +41,7 @@ export const UserProvider = ({ children }) => {
 
   const login = (userData) => {
     localStorage.setItem("user", JSON.stringify(userData));
-    setUser(userData); 
+    setUser(userData);
   };
 
   const logout = () => {
